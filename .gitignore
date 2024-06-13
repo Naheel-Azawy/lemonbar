@@ -1,0 +1,6 @@
+lemonbar
+*.o
+*.swp
+*~
+*.1
+.dumbjump
