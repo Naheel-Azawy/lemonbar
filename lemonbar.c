@@ -725,6 +725,45 @@ select_drawable_font (const uint16_t c)
 }
 
 
+char *
+pre_parse (char *text)
+{
+    static const char begin_magic[] = "%{BEGIN}";
+    char *p = text, *block_end, *pre_end;
+    pre_end = strstr(p, begin_magic);
+    if (pre_end == NULL)
+        return text;
+
+    for (;;) {
+        while (isspace(*p))
+            p++;
+
+        if (*p == '\0' || *p == '\n' || p >= pre_end)
+			break;
+
+        if (p[0] == '%' && p[1] == '{' && (block_end = strchr(p++, '}'))) {
+            p++;
+            while (p < block_end) {
+                while (isspace(*p))
+                    p++;
+
+                switch (*p++) {
+                    case 'B': bgc = dbgc = parse_color(p, &p, dbgc); update_gc(); break;
+                    case 'F': fgc = dfgc = parse_color(p, &p, dfgc); update_gc(); break;
+
+                    // In case of error keep parsing after the closing }
+                    default:
+                        p = block_end;
+                }
+            }
+            // Eat the trailing }
+            p++;
+        }
+    }
+
+    return pre_end + sizeof(begin_magic) - 1;
+}
+
 void
 parse (char *text)
 {
@@ -733,6 +772,9 @@ parse (char *text)
     int pos_x, align, button;
     char *p = text, *block_end, *ep;
     rgba_t tmp;
+
+    // Must be set before fill_rect
+    p = pre_parse(p);
 
     pos_x = 0;
     align = ALIGN_L;

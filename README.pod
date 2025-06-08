@@ -184,6 +184,22 @@ Draw a line under the text.
 
 =back
 
+=head1 PRE_FORMATTING
+
+Similar to FORMATTING, global options can be modified at runtime. The pre-formatting options must be at the beginning of the line before usual FORMATTING and must end with "%{BEGIN}".
+
+=over
+
+=item B<B>I<color>
+
+Set the text default background color.
+
+=item B<F>I<color>
+
+Set the text default foreground color.
+
+=back
+
 =head1 OUTPUT
 
 Clicking on an area makes lemonbar output the command to stdout, followed by a newline, allowing the user to pipe it into a script, execute it or simply ignore it. Simple and powerful, that's it.
@@ -192,9 +208,13 @@ Clicking on an area makes lemonbar output the command to stdout, followed by a n
 
 L<git repository|https://github.com/LemonBoy/bar>
 
+L<git repository|https://github.com/Naheel-Azawy/lemonbar>
+
 =head1 AUTHOR
 
 2012-2017 (C) The Lemon Man
+
+2024-present (C) Naheel-Azawy
 
 Xinerama support was kindly contributed by Stebalien
 

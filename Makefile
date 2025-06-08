@@ -22,7 +22,8 @@ BINDIR=${PREFIX}/bin
 all: ${EXEC}
 
 doc: README.pod
-	pod2man --section=1 --center="lemonbar Manual" --name "lemonbar" --release="lemonbar $(VERSION)" README.pod > lemonbar.1
+	p2m=/usr/bin/core_perl/pod2man; [ -e $$p2m ] || p2m=pod2man; \
+		$$p2m --section=1 --center="lemonbar Manual" --name "lemonbar" --release="lemonbar $(VERSION)" README.pod > lemonbar.1
 
 .c.o:
 	${CC} ${CFLAGS} -o $@ -c $<
